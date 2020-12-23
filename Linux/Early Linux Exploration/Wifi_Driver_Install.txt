@@ -1,0 +1,299 @@
+INSTALL MANJARO DRIVERS
+    ATTEMPT 1.
+PREPARTION
+1. sudo pacman-mirrors -f && sudo pacman -Syyu
+        #If the computer has to update, then reboot to let the updates take place.
+2. sudo pacman -S pamac-cli
+
+3. sudo pacman -S linux-headers
+3.2 sudo pacman -S $(pacman -Qsq "^linux" | grep "^linux[0-9]*[-rt]*$" | awk '{print $1"-headers"}' ORS=' ')
+
+4. pamac install bc dkms git base-devel
+
+DRIVER INSTALLTION
+1. pamac build rtl8812au-dkms-git
+
+2. /etc/modprobe.d/8812au-blacklist.conf
+            blacklist 88122au
+            
+3. sudo depmod -a
+4. sudo mkinitcpio -P
+
+#BE SURE TO SHUT DOWN THE COMPUTER ENTIRELY AND START IT BACK UP WITH THE ADAPTER IN.
+
+#NOTE TO SELF, MY ADAPTER IS rtl8812au. THESE ARE MY PENTESTING ADAPTERS.
+
+
+
+
+
+
+LINK   
+    https://forum.manjaro.org/t/realtek-wifi-driver-installation-aur/85429/6
+    
+Introduction:
+
+This tutorial will guide you through installing your Realtek WiFi driver from the AUR. You should be aware that there are potential risks from installing software from the AUR 16. Users new to Manjaro should become familiar with the AUR 20 (and its associated risks) before using the AUR on a regular basis. The AUR is not an official part of Manjaro, and as such, you use it at your own risk.
+
+This tutorial is intended to be a general guide to installing Realtek DKMS WiFi drivers from the AUR. Some drivers have slight install differences, but the examples can be modified to work with most AUR driver installs. If you are installing a driver that is not a DKMS driver, you can simply omit the section regarding installing the linux-headers and dkms.
+
+This guide was written specifically for Realtek external USB WiFi adapters using a DKMS driver version from the AUR. If you have an internal Realtek WiFi adapter and would like to use this guide, simply ignore the USB specific instructions. The installation steps are similar for most drivers, so hopefully this guide will be of assistance no matter what type of adapter or driver you are installing.
+
+There are many different AUR helpers 6 available to install packages from the AUR. You will see various AUR helpers recommended in different guides and help threads on the forum. To make this guide as universal as possible with Manjaro, I am going to be using pamac as the command line installer. Pamac is the installer included on most Manjaro editions (except KDE). If you do not already have pamac-cli on your system, it can be easily installed.
+
+In the following tutorial I am going to give detailed instructions on how to install the drivers for several Realtek USB WiFi adapters. You can use this guide as a template to install any Realtek driver from the AUR by simply substituting your driver in any driver specific command in the guide.
+
+You can search the forum to find the driver that is most often recommended for use with your Realtek adapter. Also, on the AUR search page 10 you can input your adapter model number to search the AUR for available drivers. Not all Realtek WiFi adapters require drivers from the AUR, (but if your model does) this guide should help you figure out how best to install it.
+
+If your Realtek WiFi connection is not working at all you will need an alternate means to connect to the internet. You can use a wired LAN connection if your computer has a NIC, (and a wired connection is available). The other alternative for wired connectivity is to use a USB to Ethernet adapter if you have one.
+
+If a wired connection is not an option, then you have several other wireless connectivity options. If you have an older USB WiFi dongle available with built in kernel support this is a good option to use temporarily. The other option that is widely used is Android USB phone tethering 9. Ensure you have some method to install a new driver and other required packages before attempting to replace any currently installed driver.
+
+If you have no connection means available on your Manjaro computer it is still possible to install your drivers. However, the procedure is a little complicated and outside what a general tutorial can provide. The process involves downloading all required dependencies and the driver on another working connection then transferring the files and manually installing them. This post 17 details a method of offline installation if that is your only alternative.
+
+This guide assumes you already have some method of connecting and downloading the required files locally. We will now proceed with the instructions on the correct procedures for preparation and installation of the driver.
+
+
+
+
+Driver Pre-Install Preparation:
+
+Your WiFi driver may not install correctly if the WiFi dongle is plugged into the USB port. Disconnect your USB WiFi adapter from the computer prior to driver installation. Do not insert the WiFi dongle back into any USB port until the driver installation is complete.
+
+You may have already tried unsuccessfully to install your Realtek WiFi driver. Before attempting to install the driver again, you must first remove all traces of your prior driver installations. If you installed your driver manually from github you will need to follow the uninstall directions from there to remove the driver. This guide cannot possibly cover removal of drivers installed in that manner.
+
+For drivers that were installed using an AUR helper 5 refer to the section on Removing a sub-optimal driver for complete uninstall details. Be sure you have an alternate means of installing a new driver before you remove your installed WiFi driver. You can use wired LAN or USB phone tethering 4 to temporarily provide an Internet connection to install any required packages.
+
+After performing the full uninstall procedure (if required) continue with the installation instructions below.
+
+Before proceeding, make sure your Manjaro installation is fully up to date with this command:
+
+sudo pacman-mirrors -f 5 && sudo pacman -Syyu
+
+If updating was required, then reboot after the updates are complete.
+
+If you don’t already have pamac-cli installed, then install it before proceeding any further:
+
+sudo pacman -S pamac-cli
+
+The linux-headers must also be installed for any DKMS driver version to function. You must install the required linuxXXX-headers package before installing any DKMS driver. You can use the command below to install the headers for all currently installed kernels.
+
+sudo pacman -S $(pacman -Qsq "^linux" | grep "^linux[0-9]*[-rt]*$" | awk '{print $1"-headers"}' ORS=' ') 
+
+Credit to @dalto for the above command.
+
+Before installing the driver we are going to install the required dependencies. This step is not normally required, but some DKMS driver versions may not install if the dependencies are not installed first.
+
+Install the required dependencies with:
+
+pamac install bc dkms git base-devel
+
+Once those package installations are complete, reboot.
+
+
+
+
+
+Installing Drivers From The AUR:
+
+In our first installation example we will install the DKMS driver for the Realtek rtl8812au USB WiFi adapter. To install the driver for the rtl8812au adapter issue this command:
+
+pamac build rtl8812au-dkms-git
+
+If your adapter model is different from above, simply substitute your driver package name into the command in place of "rtl8812au-dkms-git".
+
+If for instance your WiFi adapter chip is rtl8188eu you have the choice of several different driver packages in the AUR. You can install one of the available AUR drivers by substituting the driver package name into the pamac install command as in the following example:
+
+pamac build 8188eu-dkms-git
+
+However, I would recommend installing the "8188eu-dkms" driver package for the rtl8188eu adapter. To install this alternate rtl8188eu driver from the AUR, enter the following command:
+
+pamac build 8188eu-dkms
+
+Any of the various Realtek WiFi drivers in the AUR may be installed in this manner. Simply substitute the recommended AUR driver package for your adapter into the above installation commands.
+
+Note:
+
+If your Realtek adapter has a kernel module that is being replaced by a driver from the AUR, then the kernel module must be blacklisted in /etc/modprobe.d. Most, but not all Realtek driver installers automatically create a blacklist entry if it is required. If your adapter has a kernel module loaded you must ensure a blacklist file is present (or create one yourself). Very few of the Realtek drivers in the AUR actually require manual creation of a blacklist file.
+
+Most Realtek WiFi modules contain the numbers that identify the adapter model (such as 8812 etc). However, some may have a generic module name such as "rtl8xxxu". You can find out if your adapter has a kernel module loaded by running the following command:
+
+lsmod
+
+If your adapter module is present in the output of the lsmod command before (and after) installing your driver from the AUR, then follow the instructions below to create a blacklist. The 8188eu-dkms driver example given above is one of the Realtek AUR drivers that require creating a blacklist file.
+
+To blacklist the 8188eu kernel module, create the following file:
+
+/etc/modprobe.d/8188eu-blacklist.conf
+
+With the following content:
+
+blacklist 8188eu
+
+You must substitute your adapter's kernel module in place of "8188eu" to successfully blacklist your adapter's kernel module. To go into any more specifics would require far more space than is possible in a general tutorial. If you suspect your driver needs a blacklist file created then search the forum to find the correct blacklist requirements.
+
+After installing any new DKMS driver (or creating a new blacklist file), run the following commands in the terminal:
+
+sudo depmod -a
+
+sudo mkinitcpio -P
+
+When those commands have finished running, power down the computer. Be sure to do a complete shutdown. The device could possibly retain old settings if you do a warm reboot.
+
+Then plug your USB Wifi dongle directly into the computer, (not into a USB hub, or a USB port on your monitor). Also, do not use any USB extension cabling during the install procedure as this can cause problems with proper adapter operation. Some USB WiFi adapters seem to work better over USB 2, so try plugging the adapter into a USB 2 port to begin with.
+
+Unplug any wired network LAN cable, USB phone tethering, or any other USB WiFi adapter prior to powering up the computer. Restart the computer, and test if your connection is now detected and working.
+
+If your WiFi is still not working properly continue with the following steps:
+
+    Stop Network Manager:
+
+sudo systemctl stop NetworkManager 
+
+    Load your module into the kernel:
+
+MODULE=$(hwinfo --wlan | grep "Driver Activation Cmd" | cut -d " " -f9 | tr -d '"') && sudo modprobe $MODULE
+
+    Raise your Device (WiFi adapter):
+
+DEVICE=$(hwinfo --wlan | grep "Device File" | cut -d " " -f5) && sudo ip link set $DEVICE up
+
+    Ensure all network adapters are unblocked:
+
+sudo rfkill unblock all
+
+    Then restart network manager:
+
+sudo systemctl start NetworkManager
+
+If your WiFi is still not working properly after running those commands, then power down the computer. Then remove the power plug from the computer (including any battery) for a few minutes. Unplug any wired network LAN cable, USB phone tethering, and the USB WiFi adapter.
+
+Then plug the WiFi dongle back into a different USB port, preferably on a completely different USB bus. Ensure the WiFi dongle is attached directly to the computer, (not through a USB hub). If the WiFi was on a USB 2 port initially, then switch it to a USB 3 port, (& vice versa if an alternative bus is available).
+
+Then boot into your bios and disable any wired NIC (if possible). You may also want to consider resetting your bios back to the default settings. Save any bios changes and continue booting into Manjaro. If your connection is still not working after restarting, run the 5 previous commands again. If your connection is still not working after that, then you will probably require more in depth assistance than can be provided in a tutorial.
+
+At this point, it may be time to consider opening a help request on the forum. Directions on how to best do so follow further below. Before you resort to opening a help request, review the list of WiFi troubleshooting tips directly below:
+
+    
+    
+WiFi troubleshooting tips:
+
+    Make sure you reboot both your router and computer before opening any help request.
+    Sometimes a hard power down is required. Disconnect/remove all power sources (including any battery) before restarting.
+    Ensure your system is fully up to date with:
+    sudo pacman -Syyu
+    Check that your WiFi isn't blocked by rfkill:
+    rfkill list all
+    If there are any "soft blocks" returned as "yes" then:
+    sudo rfkill unblock all
+    If there are any "hard blocks" returned as "yes", then ensure that no function keys (airplane mode), or hidden switches are disabling your wireless.
+    Resetting your bios to default can be also be helpful if an adapter is undetected/hard blocked/not working properly.
+    Consider resetting your router back to the factory default settings as well.
+    If your installed driver came from the AUR (or gitub) and it stopped working after an update, you may simply need to rebuild your driver.
+    If your WiFi broke after an update (and rebuilding the driver didn't help), then try testing different kernels.
+    Use Manjaro Settings Manager to install and test both older and newer kernel versions whenever experiencing issues.
+    Ensure your BIOS is up to date, and that your WiFi adapter is enabled in the bios.
+    Install and test the newest firmware available for your WiFi adapter.
+    Install the newest firmware available for your router.
+    If you are having issues with your WiFi adapter being detected on a laptop, try putting the laptop into suspend, then resume and check your WiFi status.
+    Test out Manjaro live boot disks with different DE's, or with other distros. If your WiFi works on any other live media, take note of the kernel and driver in use.
+    Ensure there is no MAC address filtering enabled on the router and all (new) devices are allowed.
+    Temporarily disable any firewall software to be sure that is not interfering with getting a connection.
+    Temporarily disable password authentication in your router as a troubleshooting test (do not leave it disabled).
+    Ensure there is no conflicting IP address clash occurring on your network.
+    Try disabling IPv6 in your router and (or) in Network Manager.
+    Ensure that your network connection is not hidden in your router's settings.
+    Try assigning your computer a static IP address via MAC address association through your router configuration settings.
+    Test your Wifi connection with a different router if possible.
+    Test your connection with a different network if possible, (internet cafe etc).
+    Ensure any USB WiFi adapter is attached directly to the computer, (not through a USB hub).
+    Do not use any USB extension cabling during troubleshooting as this can interfere with proper adapter operation.
+    Unplug any wired network LAN cable, USB phone tethering, or any other USB WiFi adapter, then reboot before performing any troubleshooting procedures.
+
+    
+    
+Opening a help request thread:
+
+If your WiFi connection is still not working after following all the above steps, then you will need to open a help request on the forum. Follow the instructions below to create a help request that will have the best chance of helping resolve your issue.
+
+Disconnect any LAN cable, USB to Ethernet adapter, USB phone tethering, or any other network devices connected to your computer. Only leave the WiFi device that requires troubleshooting attached to your computer. Once you have disconnected all other network devices, reboot your computer.
+
+Once restarted, you will need to run extensive diagnostic commands to help identify why your WiFi is not working. Numerous diagnostic outputs and logs are required to properly diagnose complicated WiFi issues. Please run all the following commands individually in the terminal:
+
+inxi -Fxxxz
+
+lsmod | sort
+
+rfkill list all
+
+dkms status
+
+dmesg  | grep -i 'error\|seg\|fail\|broke\|warn\|dump\|denied\|rtl\|wl'
+
+journalctl --no-pager -S "$(date +'%Y-%m-%d')" -u NetworkManager  | grep -i 'discon\|error\|fail\|broke\|warn\|change\|wl\|rtl'
+
+grep -r "blacklist\|install\|options"  /etc/modprobe.d/ /etc/modules-load.d/ /usr/lib/modprobe.d/
+
+pacman -Qsq linux | grep linux | grep -v -E '(arch|util|sys|api|firmware)' | grep -v nvidia
+
+hwinfo --netcard --wlan --bluetooth | grep -Ei "model\:|driver\:|status\:|cmd\:|file\:|detected\:" | grep -v "Config Status"
+
+Please open your help request in this sub-forum:
+technical-issues-and-assistance/drivers 4
+
+Post the inputs and outputs of all the above commands, (as well as any error messages returned during the installation process). Post each input/output within its own separate code tags. Please do not string all outputs together in one long continuous post, and please do not post terminal output as a picture.
+
+    
+    
+    
+Removing a sub-optimal driver:
+
+To have the best chance of success installing a new driver, all prior WiFi drivers and their dependencies should first be completely removed, and then reinstalled. This guide provides instructions for removing drivers installed via an AUR hepler. Directions on removing drivers that were built manually is outside the scope of this tutorial. If you installed your drivers manually you will have to research how to scrub the install from your system.
+
+If you have installed dkms, the linux-headers, or any other WiFi driver packages previously, you must uninstall them before proceeding with the installation sections of this guide. Do not uninstall dkms or the linux-headers if they are required by a critical system component (unlikely).
+
+Ensure you have a working Ethernet (or other) connection before uninstalling a problematic WiFi driver. Phone tethering may also be used as a temporary internet connection to install required packages.
+
+Begin the process of uninstalling any WiFi driver that you previously installed that is not functioning correctly.
+
+Unload the module of the driver you have installed:
+
+MODULE=$(hwinfo --wlan | grep "Driver Activation Cmd" | cut -d " " -f9 | tr -d '"') && sudo modprobe -r $MODULE
+
+Next, uninstall the incorrect/problematic WiFi driver package:
+
+Note:
+
+It has been reported the "rtl8821au-dkms-git" driver package is no longer compatible with the rtl8812au adapter. To uninstall the "rtl8821au-dkms-git" driver issue the following command:
+
+sudo pacman -Rns rtl8821au-dkms-git
+
+Substitute the faulty driver you want uninstalled into the above command in place of "rtl8821au-dkms-git".
+
+The "rtlwifi_new-dkms" package often does not function correctly with some Realtek adapters it is recommended for. If you have installed the "rtlwifi_new-dkms" package, it may require removal and replacement with an alternate driver. To uninstall the "rtlwifi_new-dkms" driver you would use the following command:
+
+sudo pacman -Rns rtlwifi_new-dkms
+
+Once the unwanted driver has been removed, uninstall the "dkms" package if it is installed:
+
+sudo pacman -Rns dkms
+
+Next, uninstall all linux headers packages from your system.
+
+All installed linuxXXX-headers packages may be removed with a single command. To uninstall all linux-headers packages at once, issue the following command*:
+
+pamac remove $(ls /boot | awk -F "-" '/^linux/ { print $1"-headers" }')
+
+After uninstalling all the DKMS driver components run these commands:
+
+sudo depmod -a
+
+sudo mkinitcpio -P
+
+Once the full uninstall procedure has been completed:
+
+Reboot.
+
+
+
+

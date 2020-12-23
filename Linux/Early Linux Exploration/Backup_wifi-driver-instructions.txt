@@ -1,0 +1,494 @@
+
+Manjaro Linux Forum
+RTL8812BU Realtek Wifi adapter identification and driver installation.
+Technical Issues and Assistance
+Networking
+realtek wifi
+
+    Wiki
+    GitLab
+
+How to search the forum
+
+Before posting a new thread, try searching the forum to see if your question has already been asked.
+
+Searching is easy - click on the magnifying glass icon in the top-right corner, and type one or more keywords. Threads and posts containing that keyword will then be shown.
+
+For example, if you’re posting about a Dell XPS 15 9560, try searching for “Dell 9560” or “XPS 9560”. It’s very likely that the issues you’re having will already be under discussion!
+
+If looking for something very specific, you could also try a search engine and add the site to the search options, e.g. site:forum.manjaro.org <search_term>.
+RTL8812BU Realtek Wifi adapter identification and driver installation.
+Technical Issues and Assistance
+Networking
+realtek wifi
+hsayniaj79
+2
+1d
+
+Hello everyone,
+I recently bought a usb wifi adapter for my manjaro desktop. The adapter works on windows, so we know that the adapter by itself does work. I tried to follow this really nice guide by @tbg
+
+    Realtek WiFi driver installation guide: Intoduction Driver pre-install preparation Installing drivers from the AUR WiFi driver troubleshooting Tips Opening a help request thread Removing a sub-optimal driver Introduction: This tutorial will guide you through installing your Realtek WiFi driver from the AUR. You should be aware that there are potential risks from installing software from the AUR. Users new to Manjaro should become familiar with the AUR (and its associated risks) before … 
+
+However, I still couldn't manage to get it to work. One thing I am not certain of is the adapter model. On the driver installation disc (which has linux drivers too and they fail to install ) it has 2 sets of linux drivers. One for RTL8811CU and the other for RTL8812BU. I figured the 8812 driver from the aur could work (https://aur.archlinux.org/packages/rtl8812au-dkms-git). So I followed the above guide but to no avail.
+I shall now attach lotd of different outputs which could help some of you experts help me :slight_smile:
+So here we go:
+
+inxi -Fxxxz
+System:    Host: rhudonia Kernel: 5.5.8-1-MANJARO x86_64 bits: 64 compiler: gcc v: 9.2.1 Desktop: Xfce 4.14.2 tk: Gtk 3.24.13 
+           info: xfce4-panel wm: Compiz 0.9.14.1 dm: LightDM 1.30.0 Distro: Manjaro Linux 
+Machine:   Type: Desktop Mobo: ASRock model: B450 Pro4 serial: <filter> UEFI: American Megatrends v: P3.90 date: 12/12/2019 
+CPU:       Topology: 6-Core model: AMD Ryzen 5 3600X bits: 64 type: MT MCP arch: Zen L2 cache: 3072 KiB 
+           flags: avx avx2 lm nx pae sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3 svm bogomips: 91065 
+           Speed: 3593 MHz min/max: 2200/3800 MHz boost: enabled Core speeds (MHz): 1: 3592 2: 2053 3: 2003 4: 2588 5: 2053 
+           6: 1978 7: 1879 8: 2473 9: 3926 10: 2049 11: 2053 12: 2013 
+Graphics:  Device-1: NVIDIA TU106 [GeForce RTX 2060 SUPER] driver: nvidia v: 440.64 bus ID: 09:00.0 chip ID: 10de:1f06 
+           Display: x11 server: X.Org 1.20.7 driver: nvidia compositor: compiz v: 0.9.14.1 resolution: 1680x1050~60Hz 
+           OpenGL: renderer: GeForce RTX 2060 SUPER/PCIe/SSE2 v: 4.6.0 NVIDIA 440.64 direct render: Yes 
+Audio:     Device-1: NVIDIA TU106 High Definition Audio driver: snd_hda_intel v: kernel bus ID: 09:00.1 chip ID: 10de:10f9 
+           Device-2: Advanced Micro Devices [AMD] Starship/Matisse HD Audio vendor: ASRock driver: snd_hda_intel v: kernel 
+           bus ID: 0b:00.4 chip ID: 1022:1487 
+           Sound Server: ALSA v: k5.5.8-1-MANJARO 
+Network:   Device-1: Realtek RTL8111/8168/8411 PCI Express Gigabit Ethernet vendor: ASRock driver: r8169 v: kernel port: d000 
+           bus ID: 08:00.0 chip ID: 10ec:8168 
+           IF: enp8s0 state: down mac: <filter> 
+           Device-2: Realtek 802.11ac NIC type: USB driver: usb-network bus ID: 1-3:2 chip ID: 0bda:b812 serial: <filter> 
+Drives:    Local Storage: total: 465.76 GiB used: 62.42 GiB (13.4%) 
+           ID-1: /dev/sda vendor: Western Digital model: WDS500G2B0B size: 465.76 GiB speed: 6.0 Gb/s serial: <filter> 
+           rev: 90WD scheme: GPT 
+Partition: ID-1: / size: 457.16 GiB used: 62.42 GiB (13.7%) fs: ext4 dev: /dev/sda2 
+Sensors:   System Temperatures: cpu: 51.8 C mobo: N/A gpu: nvidia temp: 46 C 
+           Fan Speeds (RPM): N/A gpu: nvidia fan: 0% 
+Info:      Processes: 318 Uptime: 1m Memory: 15.57 GiB used: 2.27 GiB (14.6%) Init: systemd v: 244 Compilers: gcc: 9.2.1 
+           Shell: bash v: 5.0.16 running in: xfce4-terminal inxi: 3.0.37
+
+lsmod | sort
+acpi_cpufreq           28672  0
+aesni_intel           368640  0
+agpgart                53248  1 drm
+ahci                   40960  2
+ccp                   106496  1 kvm_amd
+crc16                  16384  1 ext4
+crc32c_generic         16384  0
+crc32c_intel           24576  3
+crc32_pclmul           16384  0
+crct10dif_pclmul       16384  1
+cryptd                 24576  2 crypto_simd,ghash_clmulni_intel
+crypto_simd            16384  1 aesni_intel
+crypto_user            16384  0
+drm                   557056  7 drm_kms_helper,nvidia_drm
+drm_kms_helper        237568  1 nvidia_drm
+edac_mce_amd           32768  0
+evdev                  24576  11
+ext4                  786432  1
+fat                    86016  1 vfat
+fb_sys_fops            16384  1 drm_kms_helper
+fuse                  139264  3
+ghash_clmulni_intel    16384  0
+glue_helper            16384  1 aesni_intel
+gpio_amdpt             20480  0
+hid                   147456  2 usbhid,hid_generic
+hid_generic            16384  0
+i2c_nvidia_gpu         16384  0
+i2c_piix4              28672  0
+input_leds             16384  0
+ip6table_filter        16384  1
+ip6_tables             36864  53 ip6table_filter
+ip6t_REJECT            16384  1
+ip6t_rt                20480  3
+ipmi_devintf           20480  0
+ipmi_msghandler        73728  2 ipmi_devintf,nvidia
+iptable_filter         16384  1
+ip_tables              36864  9 iptable_filter
+ipt_REJECT             16384  1
+irqbypass              16384  1 kvm
+jbd2                  135168  1 ext4
+joydev                 28672  0
+k10temp                16384  0
+kvm                   811008  1 kvm_amd
+kvm_amd               110592  0
+ledtrig_audio          16384  2 snd_hda_codec_generic,snd_hda_codec_realtek
+libahci                45056  1 ahci
+libata                290816  2 libahci,ahci
+libcrc32c              16384  2 nf_conntrack,nf_nat
+libphy                114688  2 r8169,realtek
+loop                   40960  0
+mac_hid                16384  0
+mbcache                16384  1 ext4
+Module                  Size  Used by
+mousedev               24576  0
+nf_conntrack          172032  6 xt_conntrack,nf_nat,nf_nat_ftp,nf_conntrack_netbios_ns,nf_conntrack_broadcast,nf_conntrack_ftp
+nf_conntrack_broadcast    16384  1 nf_conntrack_netbios_ns
+nf_conntrack_ftp       24576  1 nf_nat_ftp
+nf_conntrack_netbios_ns    16384  0
+nf_defrag_ipv4         16384  1 nf_conntrack
+nf_defrag_ipv6         24576  1 nf_conntrack
+nf_log_common          16384  2 nf_log_ipv4,nf_log_ipv6
+nf_log_ipv4            16384  5
+nf_log_ipv6            16384  5
+nf_nat                 57344  1 nf_nat_ftp
+nf_nat_ftp             20480  0
+nf_reject_ipv4         16384  1 ipt_REJECT
+nf_reject_ipv6         20480  1 ip6t_REJECT
+nls_cp437              20480  1
+nls_iso8859_1          16384  1
+nvidia              20471808  348 nvidia_modeset
+nvidia_drm             57344  4
+nvidia_modeset       1118208  8 nvidia_drm
+pcspkr                 16384  0
+pinctrl_amd            32768  0
+r8169                  94208  0
+realtek                24576  1
+rfkill                 28672  2
+rng_core               16384  1 ccp
+scsi_mod              258048  2 sd_mod,libata
+sd_mod                 57344  3
+snd                   114688  14 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_timer,snd_pcm
+snd_hda_codec         163840  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek
+snd_hda_codec_generic    94208  1 snd_hda_codec_realtek
+snd_hda_codec_hdmi     73728  1
+snd_hda_codec_realtek   126976  1
+snd_hda_core          106496  5 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek
+snd_hda_intel          57344  3
+snd_hwdep              16384  1 snd_hda_codec
+snd_intel_dspcfg       28672  1 snd_hda_intel
+snd_pcm               143360  4 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core
+snd_timer              40960  1 snd_pcm
+soundcore              16384  1 snd
+sp5100_tco             20480  0
+squashfs               69632  0
+syscopyarea            16384  1 drm_kms_helper
+sysfillrect            16384  1 drm_kms_helper
+sysimgblt              16384  1 drm_kms_helper
+typec                  53248  1 typec_ucsi
+typec_ucsi             36864  1 ucsi_ccg
+ucsi_ccg               20480  0
+uinput                 20480  0
+usbhid                 65536  0
+vfat                   24576  1
+wmi                    36864  1 wmi_bmof
+wmi_bmof               16384  0
+xhci_hcd              282624  1 xhci_pci
+xhci_pci               20480  0
+x_tables               53248  13 ip6table_filter,xt_conntrack,iptable_filter,xt_LOG,xt_tcpudp,xt_addrtype,ip6t_rt,ip6_tables,ipt_REJECT,ip_tables,xt_limit,xt_hl,ip6t_REJECT
+xt_addrtype            16384  4
+xt_conntrack           16384  16
+xt_hl                  16384  22
+xt_limit               16384  13
+xt_LOG                 20480  10
+xt_tcpudp              20480  18
+
+rfkill list all
+<no output>
+
+dkms status
+rtl8812au, 5.6.4.2.r9.g49e98ff, 5.4.24-1-MANJARO, x86_64: installed
+rtl8812au, 5.6.4.2.r9.g49e98ff, 5.5.8-1-MANJARO, x86_64: installed
+
+sudo dmesg  | grep -i 'error\|seg\|fail\|broke\|warn\|dump\|denied\|rtl\|wl'
+[    0.814609] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI HPX-Type3]
+[    0.963973] Segment Routing with IPv6
+[    0.964611] RAS: Correctable Errors collector initialized.
+[    3.134600] systemd[1]: Listening on Process Core Dump Socket.
+[    3.260644] nvidia: module verification failed: signature and/or required key missing - tainting kernel
+[    3.501565] r8169 0000:08:00.0 eth0: RTL8168h/8111h, a8:a1:59:16:65:32, XID 541, IRQ 62
+[    3.548791] ccp 0000:0b:00.1: ccp: unable to access the device: you might be running a broken BIOS.
+
+journalctl --no-pager -S "$(date +'%Y-%m-%d')" -u NetworkManager  | grep -i 'discon\|error\|fail\|broke\|warn\|change\|wl\|rtl'
+Mar 20 17:43:34 rhudonia NetworkManager[756]: <info>  [1584722614.7477] hostname: hostname changed from (none) to "rhudonia"
+Mar 20 17:43:34 rhudonia NetworkManager[756]: <info>  [1584722614.7807] device (enp8s0): state change: unmanaged -> unavailable (reason 'managed', sys-iface-state: 'external')
+Mar 20 17:43:34 rhudonia NetworkManager[756]: <warn>  [1584722614.8960] device (enp8s0): connectivity: "/proc/sys/net/ipv4/conf/enp8s0/rp_filter" is set to "1". This might break connectivity checking for IPv4 on this device
+
+grep -r "blacklist\|install\|options"  /etc/modprobe.d/ /etc/modules-load.d/ /usr/lib/modprobe.d/
+/etc/modprobe.d/mhwd-gpu.conf:blacklist nouveau
+/etc/modprobe.d/mhwd-gpu.conf:blacklist ttm
+/etc/modprobe.d/mhwd-gpu.conf:blacklist drm_kms_helper
+/etc/modprobe.d/mhwd-gpu.conf:blacklist drm
+/usr/lib/modprobe.d/bluetooth-usb.conf:options btusb reset=1
+/usr/lib/modprobe.d/nvdimm-security.conf:install libnvdimm /usr/bin/ndctl load-keys ; /sbin/modprobe --ignore-install libnvdimm $CMDLINE_OPTS
+/usr/lib/modprobe.d/uvesafb.conf:# options uvesafb mode=<xres>x<yres>[-<bpp>][@<refresh>] scroll=<ywrap|ypan|redraw> ...
+/usr/lib/modprobe.d/uvesafb.conf:options uvesafb mode_option=1024x768-32 scroll=ywrap
+/usr/lib/modprobe.d/systemd.conf:options bonding max_bonds=0
+/usr/lib/modprobe.d/systemd.conf:options dummy numdummies=0
+
+pacman -Qsq linux | grep linux | grep -v -E '(arch|util|sys|api|firmware)' | grep -v nvidia
+linux54
+linux54-headers
+linux55
+linux55-headers
+
+hwinfo --netcard --wlan --bluetooth | grep -Ei "model\:|driver\:|status\:|cmd\:|file\:|detected\:" | grep -v "Config Status"
+  Model: "Realtek RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller"
+  Driver: "r8169"
+  Device File: enp8s0
+  Link detected: no
+    Driver Status: r8169 is active
+    Driver Activation Cmd: "modprobe r8169"
+
+lsusb
+Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 005 Device 003: ID 2717:ff40 Xiaomi Inc. Mi/Redmi series (MTP)
+Bus 005 Device 002: ID 0461:4d22 Primax Electronics, Ltd USB Optical Mouse
+Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 001 Device 002: ID 0bda:b812 Realtek Semiconductor Corp. 802.11ac NIC
+Bus 001 Device 003: ID 413c:2113 Dell Computer Corp. Dell KB216 Wired Keyboard
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+Your help is greatly appreciated. Thank you.
+
+EDIT: The solution worked perfectly by using the 88x2bu driver instead.
+
+    Uninstall any Realtek WiFi driver that you have installed previously. Then, install either of these drivers from the AUR for the rtl8822bu adapter: rtl88x2bu-dkms-git Or: rtl8822bu-dkms-git I would advise installing kernel 4.19 for this adapter (test newer kernels once you have things working… 
+
+    created
+    1d
+    last reply
+    1d
+    8
+    replies
+    47
+    views
+    2
+    users
+    5
+    likes
+    1
+    link
+    5
+    4
+
+tbg
+Admired
+3
+1d
+
+Uninstall any Realtek WiFi driver that you have installed previously.
+
+Then, install either of these drivers from the AUR for the rtl8822bu adapter:
+
+rtl88x2bu-dkms-git
+
+Or:
+
+rtl8822bu-dkms-git
+
+I would advise installing kernel 4.19 for this adapter (test newer kernels once you have things working):
+
+sudo mhwd-kernel -i linux419
+
+Then reboot into kernel 4.19.
+
+You can switch kernels at the grub boot screen when you reboot. If you do not see the grub prompt screen, repeatedly press the ESC, SHIFT or F8 key. This should show the GRUB boot menu if it doesn't appear automatically. As soon as you see the grub boot screen, press the down arrow. Select the "advanced" menu from the choices and press enter. In the next menu you can select the different kernels you have installed to boot from. Select the regular kernel you wish boot into (not the fallback), and then press enter to complete the kernel change.
+
+The following command will install the linux-headers automatically for all installed kernels:
+
+sudo pacman -S $(pacman -Qsq "^linux" | grep "^linux[0-9]*[-rt]*$" | awk '{print $1"-headers"}' ORS=' ')
+
+Ensure the required dependencies are installed:
+
+sudo pacman -S bc dkms git base-devel --needed
+
+If you do not already have an AUR helper enabled on your system then install pamac-cli.
+
+sudo pacman -S pamac-cli
+
+Run either one of the following commands to install the rtl8822bu driver from the AUR:
+
+pamac build rtl88x2bu-dkms-git
+
+Or:
+
+pamac build rtl8822bu-dkms-git
+
+Once the driver installation is complete reboot.
+
+If the driver you installed first does not work, then test alternate drivers from the AUR and alternate kernels until you find a working combination.
+
+It is always a good idea to read recent comments on the driver's AUR homepage in case any new issues have arisen with the driver's installation.
+
+See
+
+https://aur.archlinux.org/packages/rtl88x2bu-dkms-git/
+
+https://aur.archlinux.org/packages/rtl8822bu-dkms-git/
+
+More Realtek driver installation tips can be found here:
+
+Realtek driver installation guide
+
+Chip identification for different rtl8812bu adapter versions can be found here:
+
+https://deviwiki.com/wiki/Realtek_RTL8812BU_USB_Module 1
+
+Disabling MAC address randomization is often required for the rtl8812bu adapter to connect properly.
+
+You can disable MAC Address Randomization in Network Manager with the following command:
+
+echo -e "[device]\nwifi.scan-rand-mac-address=no" | sudo tee /etc/NetworkManager/conf.d/disable-random-mac.conf
+
+After creating the new conf file, reboot both your router and your computer.
+Solution
+hsayniaj79
+tbg
+1d
+
+But I am not sure if it is the 8822bu adapter that I have. Luckily, I have a windows machine that I can check the adapter model on.
+Yeah I will shift to the 4.19 to test it out.
+Do you think MAC Randomisation affects hwinfo detection? hwinfo should at least detect the device right?
+I shall follow your advice and get back to you. Thank you :smiley:
+tbg
+Admired
+1d
+
+    0bda:b812
+
+See right hand pane for your chip ID:
+
+https://deviwiki.com/wiki/Realtek_RTL8812BU_USB_Module
+hsayniaj79
+tbg
+1d
+
+Yes it says 8812bu.
+Same as on
+https://wiki.ubuntuusers.de/WLAN/Karten/Realtek/
+In the AUR I also see a driver for 88x2bu, do you think this is more suitable or should i go ahead with 8822bu?
+tbg
+Admired
+1d
+
+Do whatever you feel like it's your system.
+
+You can always reinstall, but installing multiple drivers (especially from source @ github) often leads to a big mess for newbies.
+hsayniaj79
+tbg
+1d
+
+Yes just wanted your advice, that's all. I will of course install only 1 driver at a time. I'll try both and report back here.
+hsayniaj79
+tbg
+1d
+
+I tried both, 8822bu didn't work but 88x2bu did. Followed your tutorial. Great guide thanks. Marked your answer as solution.
+tbg
+Admired
+1d
+
+Yes, I don't know if it's a different revision of the adapter responsible some people find the 88x2bu works better for them. There are other drivers for the rtl8812bu in the AUR as well. I will modify my post to include both AUR drivers.
+
+I'm glad the short guide worked for you. Disabling MAC address randomization is often required for this adapter to connect properly (so I included that). It's sometimes very finicky that way.
+
+Glad things worked out.
+This topic will close 3 months after the last reply.
+Suggested Topics
+Topic 	Replies 	Views 	Activity
+Unable to Mount Samba Share KDE
+Networking
+	5 	56 	2d
+Can’t get the network to work
+Networking
+	32 	142 	16d
+Rosewill RNX-AC600PCEv3 PCI-E Network adapter
+Networking
+drivers
+wifi
+pcie
+	1 	37 	17d
+Unable to access https enabled internal websites when using private vpn server
+Networking
+kde
+network
+vpn
+ssl
+	4 	38 	9d
+[SOLVED] Atheros QCA6174: spontaineous latency spikes
+Networking
+wifi
+network
+atheros
+	6 	64 	3d
+Want to read more? Browse other topics in Networking or view latest topics.
+
+Forum kindly sponsored by
+
+
+
+
+
+
+
+
+
+
+
+
+
+Uninstall any Realtek WiFi driver that you have installed previously.
+
+Then, install either of these drivers from the AUR for the rtl8822bu adapter:
+
+rtl88x2bu-dkms-git
+
+Or:
+
+rtl8822bu-dkms-git
+
+I would advise installing kernel 4.19 for this adapter (test newer kernels once you have things working):
+
+sudo mhwd-kernel -i linux419
+
+Then reboot into kernel 4.19.
+
+You can switch kernels at the grub boot screen when you reboot. If you do not see the grub prompt screen, repeatedly press the ESC, SHIFT or F8 key. This should show the GRUB boot menu if it doesn't appear automatically. As soon as you see the grub boot screen, press the down arrow. Select the "advanced" menu from the choices and press enter. In the next menu you can select the different kernels you have installed to boot from. Select the regular kernel you wish boot into (not the fallback), and then press enter to complete the kernel change.
+
+The following command will install the linux-headers automatically for all installed kernels:
+
+sudo pacman -S $(pacman -Qsq "^linux" | grep "^linux[0-9]*[-rt]*$" | awk '{print $1"-headers"}' ORS=' ')
+
+Ensure the required dependencies are installed:
+
+sudo pacman -S bc dkms git base-devel --needed
+
+If you do not already have an AUR helper enabled on your system then install pamac-cli.
+
+sudo pacman -S pamac-cli
+
+Run either one of the following commands to install the rtl8822bu driver from the AUR:
+
+pamac build rtl88x2bu-dkms-git
+
+Or:
+
+pamac build rtl8822bu-dkms-git
+
+Once the driver installation is complete reboot.
+
+If the driver you installed first does not work, then test alternate drivers from the AUR and alternate kernels until you find a working combination.
+
+It is always a good idea to read recent comments on the driver's AUR homepage in case any new issues have arisen with the driver's installation.
+
+See
+
+https://aur.archlinux.org/packages/rtl88x2bu-dkms-git/
+
+https://aur.archlinux.org/packages/rtl8822bu-dkms-git/
+
+More Realtek driver installation tips can be found here:
+
+Realtek driver installation guide
+
+Chip identification for different rtl8812bu adapter versions can be found here:
+
+https://deviwiki.com/wiki/Realtek_RTL8812BU_USB_Module
+
+Disabling MAC address randomization is often required for the rtl8812bu adapter to connect properly.
+
+You can disable MAC Address Randomization in Network Manager with the following command:
+
+echo -e "[device]\nwifi.scan-rand-mac-address=no" | sudo tee /etc/NetworkManager/conf.d/disable-random-mac.conf
+
+After creating the new conf file, reboot both your router and your computer.
+

@@ -1,0 +1,64 @@
+TMUX
+tmux -starts a new session
+Windows labelling starts at 0
+The * show which window you are in.
+
+All commands play off ctrl b
+
+New panes:
+% -->creates a horizonal pane
+" -->creates a vertical pane
+arrow --> allows you to switch to different panes
+q -->shows pane numbers 
+o -->toggles between panes
+! -->breaks the pane out of the window
+x -->Kills current pane
+
+Windows:
+c -->Creates a new window
+, -->Renames a current window
+w -->Lists windows
+n -->Change to the next window
+p -->Change to the previous window
+0 to 9 -->Select windows 0-9
+exit -will close that pane or window
+
+
+Sessions.
+ctrl b d / tmux detach -Detaches from a session
+tmux ls -Shows your sessions running in the background
+tmux attach -t [session name/session number] -Reattaches to the session
+tmux rename-session -t [Name] [new name] -reanmes a session
+tmux new -s [name we want to call it] -Names and creates a new session
+tmux kill-session -t [name of session] -Kills a tmux session
+
+Sessions will be destroyed when rebooted
+
+
+
+
+NETWORK OPTIONS VIRTUALBOX
+Not-Attached- VBox reports to the guest that a network card is present, but there is no connection. This is as if no Ethernet cable was plugged into the card. Using this mode, it is possible to pull the Virtual Ethernet cable and disrupt the connection, which can be useful to inform a guest operating system no connection is available and enforce reconfiguration.
+
+Network Address Translation (NAT)- If all you want is to browse the web, download files and view email inside the guest, then the default mode is for this which is NAT.
+
+Bridged networking- This is more advanced networking needs such as netwrok simulations and running servers in a guest. When enabled, Vbox connects to one of your installed network cards and exchanges network packets directly, circumventing your host operating systems network stack.
+
+Internal networking- This can be used to create a different kind of software-based network which is visible to selected virtual machines but not to applications running on the host or to the outside world.
+
+Host-only networking- This can be used to create a network containing the host and a set of virtual machines, without the need for the host's physcial network interface. A virtual network interface, similar to a loopback interface, is reated on the host providing connectivity among virtual machines and the host.
+
+Generic networking- Rared used modes which share the same generic network interface, by allowing the user to select to a driver which can be included with Vbox
+
+
+KVM is a kernal based open source, linux focused virtualisation software.
+Running this on linux through virtmanager is probably a better option for runninng virtual machines on linux rather than running virutalbox.
+
+Openbox is simply a window mnager.
+Youtube it, but otherwse done.
+
+VIM KEYBINDINGS.
+:saveas file -Saves a file as chosen name.
+:close -Closes file 
+
+

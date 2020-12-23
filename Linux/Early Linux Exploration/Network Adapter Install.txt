@@ -1,0 +1,42 @@
+WIFI DRIVERS FOR LINUX DEBIAN WORKED.
+
+
+https://www.addictivetips.com/ubuntu-linux-tips/fix-the-realtek-8812au-wifi-card-on-linux/
+
+https://github.com/gnab/rtl8812au --This is the Github page behind the driver install.
+
+https://github.com/ulli-kroll/rtl8821au
+
+https://github.com/PatrickNogas/Debian-install
+
+https://github.com/dderugin/rtl8812au
+
+https://github.com/gordboy/rtl8812au
+
+
+https://aur.archlinux.org/packages/?O=0&K=rtl8812au
+
+https://aur.archlinux.org/packages/?O=0&K=realtek
+			THESE ARE ARCH LINKS, ALREADY HAVE A SOLUTION BUT INCASE.
+
+1. sudo apt-get install build-essential git dkms -y
+
+2. sudo git clone https://github.com/gnab/rtl8812au.git /usr/src/8812au-4.2.2/
+
+3. cd /usr/src/8812au-4.2.2/
+
+4. sudo -s
+
+5. cp 8812au.ko /lib/modules/$(uname -r)/kernel/drivers/net/
+		Didn't work for me, so I ignored this step.
+6. depmod
+
+7. dkms add -m 8812au -v 4.2.2
+
+8. dkms build -m 8812au -v 4.2.2
+
+9. sudo dkms install -m 8812au -v 4.2.2
+
+10. echo 8812au | sudo tee -a /etc/modules
+
+11. Reboot.

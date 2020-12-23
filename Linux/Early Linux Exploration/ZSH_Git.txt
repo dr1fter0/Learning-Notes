@@ -1,0 +1,29 @@
+ZSH SETUP/
+
+Understanding Git/Github
+https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners
+
+ZSH
+https://github.com/sindresorhus/pure
+https://github.com/romkatv/powerlevel10k
+https://github.com/tobyjamesthomas/pi
+
+Installing ZSH.
+1. sudo apt install zsh (Or whatever package manager your using)
+
+2. chsh -s $(which zsh)
+		to change default shell to zsh
+3. Log out and login back again to use your new default shell.
+
+4. Select No.2.
+
+5. Curl the ohmyzsh 
+
+Follow theming steps in https://github.com/ohmyzsh/ohmyzsh
+https://www.youtube.com/watch?v=4KBuPCeF9Gc
+
+TMUX
+
+1. To start session
+		tmux
+2. 
